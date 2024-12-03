@@ -1,0 +1,128 @@
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#EditAddUser" (click)="openModel()"
+    style="margin: 50px;">Create New User</button>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Role Name</th>
+            <th scope="col" colspan="2">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of userList">
+            <th scope="row">{{user.id}}</th>
+            <td>{{user.userName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.role.rolename}}</td>
+            <td>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#EditAddUser"
+                    (click)="openModel(user)">Edit</button>
+            </td>
+            <td>
+                <button type="button" class="btn btn-info" data-toggle="div" data-target="#ViewUser"
+                    (click)="openUserInfoSection(user)">View</button>
+            </td>
+
+            <td>
+                <button type="button" class="btn btn-danger" (click)="deleteUser(user.id)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div *ngIf="isDivVisible">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">FirstName</th>
+            <th scope="col">LastName</th>
+            <th scope="col">Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+        </tbody>
+      </table>
+    <table>
+        <thead></thead>
+         <tbody>
+            <tr>
+                <td>Id</td> <td>{{userToShow.id}}</td>
+            </tr>
+            <tr>
+                <td>First NAme  </td> 
+                <td>{{userToShow.userName}}</td>
+            </tr>
+            <tr>
+                <td>Last Name  </td> 
+                <td>{{userToShow.lastName}}</td>
+            </tr>
+            <tr>
+                <td>Role </td> 
+                <td>{{userToShow.role.rolename}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-primary" (click)="closeInfoSection()">Close info section</button>
+      
+  </div>
+<!-- Modal -->
+<div class="modal fade" id="EditAddUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Role</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="">First and last name</span>
+                    </div>
+                    <input type="text" class="form-control" [(ngModel)]="userToModify.userName">
+                    <input type="text" class="form-control" [(ngModel)]="userToModify.lastName">
+                </div><br>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">Roles</label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="userToModify.role.id">
+                        <option selected>Choose...</option>
+                        <option *ngFor="let role of roleList" [value]="role.id">{{role.rolename}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" *ngIf="creatingMode" (click)="CreateUser()">Create
+                    User</button>
+                <button type="button" class="btn btn-primary" *ngIf="!creatingMode" (click)="modifyUser()">Modify
+                    User</button>
+            </div>
+        </div>
+    </div>
+</div>
